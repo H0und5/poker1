@@ -1,11 +1,9 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 
-// Import the functions you need from the SDKs you need
-
+// Import the functions you need from the Firebase SDKs you need
 import { collection, getFirestore, getDocs} from 'firebase/firestore';
-
 import { initializeApp } from "firebase/app";
-
 
 // specialized firebaseconfig object
 const firebaseConfig = {
@@ -19,35 +17,55 @@ const firebaseConfig = {
 
 
 // Initialize Firebase
-
 initializeApp(firebaseConfig);
-
 const db = getFirestore();
 
-// collection references
 
+// collection references
 const bestHandsColRef = collection(db, 'bestHands');
 
 
 // getBestHands 
-getDocs(bestHandsColRef)
-  .then((hands) => {
-    let bestHandsRanked = [];
-
-    hands.docs.forEach((hand) => {
-      bestHandsRanked.push({ ...hand.data() })
-    })
-
-    console.log(bestHandsRanked)
-  })
 
 
 
 // App component rendered below
 function App() {
+
+  const [ handsRanked, setHandsRanked ] = useState([]);
+  
+  useEffect(() => {
+
+    getDocs(bestHandsColRef)
+    .then((hands) => {
+      let bestHandsRanked = [];
+  
+      hands.docs.forEach((hand) => {
+        bestHandsRanked.push({ ...hand.data() })
+      })
+  
+      setHandsRanked(bestHandsRanked);
+  
+      console.log(bestHandsRanked)
+    })
+
+  }, [])
+
   return (
     <div className="App">
       <p>yoooo</p>
+
+      {handsRanked.map((hand) => (
+        <div key={hand.id}>
+          <br/>
+          
+          <p>{hand.name}</p>
+          <p>{hand.rank}</p>
+          <p>{hand.description}</p>
+
+          <br/>
+        </div>
+      ))}
     </div>
   );
 }
