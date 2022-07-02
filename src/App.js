@@ -2,7 +2,7 @@ import './App.css';
 
 // Import the functions you need from the SDKs you need
 
-import { collection, getFirestore} from 'firebase/firestore';
+import { collection, getFirestore, getDocs} from 'firebase/firestore';
 
 import { initializeApp } from "firebase/app";
 
@@ -30,6 +30,16 @@ const bestHandsColRef = collection(db, 'bestHands');
 
 
 // getBestHands 
+getDocs(bestHandsColRef)
+  .then((hands) => {
+    let bestHandsRanked = [];
+
+    hands.docs.forEach((hand) => {
+      bestHandsRanked.push({ ...hand.data() })
+    })
+
+    console.log(bestHandsRanked)
+  })
 
 
 
