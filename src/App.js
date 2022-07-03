@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 // Import the functions you need from the Firebase SDKs you need
 import { collection, getFirestore, getDocs} from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
+// import components
+import SignUpForm from './components/UI/Forms/SignUpForm';
 
 // specialized firebaseconfig object
 const firebaseConfig = {
@@ -19,7 +23,7 @@ const firebaseConfig = {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const db = getFirestore();
-
+const auth = getAuth();
 
 // collection references
 const bestHandsColRef = collection(db, 'bestHands');
@@ -34,6 +38,7 @@ function App() {
 
   const [ handsRanked, setHandsRanked ] = useState([]);
   
+  // Shows the order of best hands, runs once, on first app render.
   useEffect(() => {
 
     getDocs(bestHandsColRef)
@@ -51,9 +56,22 @@ function App() {
 
   }, [])
 
+  // Sign up form handler defined
+
+  const signUpFormHandler = (e, email, password) => {
+    e.preventDefault();
+
+    console.log('lmfao', email, password)
+
+    // createUserWithEmailAndPassword()
+  }
+
+
+
+  // return statement.
   return (
     <div className="App">
-      <p>yoooo</p>
+      <SignUpForm signUpFormHandler={signUpFormHandler}/>
 
       {handsRanked.map((hand) => (
         <div key={hand.id}>
