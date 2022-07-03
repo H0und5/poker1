@@ -8,6 +8,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 // import components
 import SignUpForm from './components/UI/Forms/SignUpForm';
+import SignInForm from './components/UI/Forms/SignInForm';
 
 // specialized firebaseconfig object
 const firebaseConfig = {
@@ -36,6 +37,7 @@ const bestHandsColRef = collection(db, 'bestHands');
 // App component rendered below
 function App() {
 
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ handsRanked, setHandsRanked ] = useState([]);
   
   // Shows the order of best hands, runs once, on first app render.
@@ -57,23 +59,38 @@ function App() {
   }, [])
 
   // Sign up form handler defined
-
   const signUpFormHandler = (e, email, password) => {
     e.preventDefault();
 
     console.log('lmfao', email, password)
 
-    // createUserWithEmailAndPassword()
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        console.log(cred.user);
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
   }
+
+  // Sign in form handler
+  const signInFormHandler = (e) => {
+    e.preventDefault();
+
+    setIsLoggedIn(true);
+  }
+
 
 
 
   // return statement.
   return (
     <div className="App">
-      <SignUpForm signUpFormHandler={signUpFormHandler}/>
+      {!isLoggedIn && <SignUpForm signUpFormHandler={signUpFormHandler}/>}
 
-      {handsRanked.map((hand) => (
+      {!isLoggedIn && <SignInForm signInFormHandler={signInFormHandler}/>}
+
+      {isLoggedIn && handsRanked.map((hand) => (
         <div key={hand.id}>
           <br/>
           

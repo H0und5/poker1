@@ -1,34 +1,32 @@
 import { useRef } from 'react';
 
-const SignUpForm = ( onClick ) => {
+
+const SignInForm = (onClick) => {
 
   const email = useRef('');
   const password = useRef('');
 
-  const signUpSubmitHandler = (e) => {
+  const signInFormHandler = (e) => {
     e.preventDefault();
 
-    let formEmail = email.current.value;
-    let formPassword = password.current.value
-
-    onClick.signUpFormHandler(e, formEmail, formPassword);
+    onClick.signInFormHandler(e, email.current.value, password.current.value)
 
     email.current.value = '';
     password.current.value = '';
   }
 
   return (
-    <form className="signUp">
-      <h3>Sign up for an account</h3>
+    <form>
+      <h3>Log in</h3>
       <label htmlFor="email">Email:</label>
       <input type="email" name="email" ref={email} placeholder="Enter your email to sign up" required/>
       <br/>
       <label htmlFor="password">Password:</label>
       <input type="password" name="password" ref={password} placeholder="Enter a new password"/>
       <br/><br/>
-      <button onClick={signUpSubmitHandler}>Sign Up</button>
+      <button onClick={signInFormHandler}>Sign Up</button>
     </form>
   )
 }
 
-export default SignUpForm;
+export default SignInForm;
