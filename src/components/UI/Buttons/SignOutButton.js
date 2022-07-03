@@ -1,10 +1,10 @@
 
-const SignOutButton = (onClick) => {
+const SignOutButton = (props) => {
 
   const logOutUserHandler = (e) => {
     e.preventDefault();
 
-    onClick.logOutHandler();
+    props.signOutHandler();
   }
 
   return (

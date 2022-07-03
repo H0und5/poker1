@@ -9,7 +9,10 @@ const SignInForm = (onClick) => {
   const signInFormHandler = (e) => {
     e.preventDefault();
 
-    onClick.signInFormHandler(e, email.current.value, password.current.value)
+    let formEmail = email.current.value;
+    let formPassword = password.current.value;
+
+    onClick.signInFormHandler(e, formEmail, formPassword)
 
     email.current.value = '';
     password.current.value = '';
@@ -24,7 +27,7 @@ const SignInForm = (onClick) => {
       <label htmlFor="password">Password:</label>
       <input type="password" name="password" ref={password} placeholder="Enter a new password"/>
       <br/><br/>
-      <button onClick={signInFormHandler}>Sign Up</button>
+      <button onClick={signInFormHandler}>Sign in to your account</button>
     </form>
   )
 }

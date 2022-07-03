@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 // Import the functions you need from the Firebase SDKs you need
 import { collection, getFirestore, getDocs} from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth';
 
 // import components
 import SignUpForm from './components/UI/Forms/SignUpForm';
@@ -75,14 +75,26 @@ function App() {
   }
 
   // Sign in form handler
-  const signInFormHandler = (e) => {
+  const signInFormHandler = (e, email, password) => {
     e.preventDefault();
+
+    console.log(email, password)
+
+    signInWithEmailAndPassword(auth, email, password)
 
     setIsLoggedIn(true);
   }
 
   // Log out handler
-  const logOutHandler = () => {
+  const signOutHandler = () => {
+
+    signOut(auth)
+      .then(() => {
+        console.log('You have successfully signed out!');
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
 
     setIsLoggedIn(false);
 
@@ -95,11 +107,14 @@ function App() {
   // return statement.
   return (
     <div className="App">
+
+      <h2>Poker Game!</h2>
+
       {!isLoggedIn && <SignUpForm signUpFormHandler={signUpFormHandler}/>}
 
       {!isLoggedIn && <SignInForm signInFormHandler={signInFormHandler}/>}
 
-      {isLoggedIn && <SignOutButton logOutHandler={logOutHandler} />}
+      {isLoggedIn && <SignOutButton signOutHandler={signOutHandler} />}
 
       {isLoggedIn && handsRanked.map((hand) => (
         <div key={hand.id}>
