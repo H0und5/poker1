@@ -9,6 +9,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 // import components
 import SignUpForm from './components/UI/Forms/SignUpForm';
 import SignInForm from './components/UI/Forms/SignInForm';
+import SignOutButton from './components/UI/Buttons/SignOutButton';
 
 // specialized firebaseconfig object
 const firebaseConfig = {
@@ -80,6 +81,14 @@ function App() {
     setIsLoggedIn(true);
   }
 
+  // Log out handler
+  const logOutHandler = () => {
+
+    setIsLoggedIn(false);
+
+    console.log('lmfao')
+  }
+
 
 
 
@@ -89,6 +98,8 @@ function App() {
       {!isLoggedIn && <SignUpForm signUpFormHandler={signUpFormHandler}/>}
 
       {!isLoggedIn && <SignInForm signInFormHandler={signInFormHandler}/>}
+
+      {isLoggedIn && <SignOutButton logOutHandler={logOutHandler} />}
 
       {isLoggedIn && handsRanked.map((hand) => (
         <div key={hand.id}>
