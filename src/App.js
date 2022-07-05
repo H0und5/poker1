@@ -101,8 +101,12 @@ function App() {
     console.log('lmfao')
   }
 
-
-
+  
+  // App 
+  // v
+  // SignUpFormContainer - <-- logic
+  // v
+  // SignUpFormUI <-- dumb component
 
   // return statement.
   return (
